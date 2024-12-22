@@ -1,25 +1,46 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.7.34024.191
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chocolate", "chocolate\chocolate.csproj", "{A2684127-76C4-4946-9BD3-AF7E63297058}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A2684127-76C4-4946-9BD3-AF7E63297058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2684127-76C4-4946-9BD3-AF7E63297058}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2684127-76C4-4946-9BD3-AF7E63297058}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2684127-76C4-4946-9BD3-AF7E63297058}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AB92649E-1CCC-4202-B67A-AC392B809CB5}
-	EndGlobalSection
-EndGlobal
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Ввод данных пользователем
+        Console.WriteLine("Введите количество денег: ");
+        int money = Convert.ToInt32(Console.ReadLine());
+
+        Console.WriteLine("Введите цену одной шоколадки: ");
+        int price = Convert.ToInt32(Console.ReadLine());
+
+        Console.WriteLine("Введите количество оберток для обмена на новую шоколадку: ");
+        int wrappersNeededForExchange = Convert.ToInt32(Console.ReadLine());
+
+        // Получаем максимальное количество шоколадок
+        int totalChocolates = CalculateMaxChocolates(money, price, wrappersNeededForExchange);
+
+        // Вывод результата
+        Console.WriteLine($"Максимально возможное количество шоколадок: {totalChocolates}");
+    }
+
+    // Метод для подсчета максимального количества шоколадок
+    static int CalculateMaxChocolates(int money, int price, int wrappersNeeded)
+    {
+        // Подсчет первоначального количества шоколадок, которые можно купить
+        int chocolatesBought = money / price;
+
+        // Начальное количество оберток
+        int wrappers = chocolatesBought;
+
+        // Цикл для обмена оберток на новые шоколадки
+        while (wrappers >= wrappersNeeded)
+        {
+            // Количество шоколадок, полученных за обертки
+            int chocolatesFromWrappers = wrappers / wrappersNeeded;
+            chocolatesBought += chocolatesFromWrappers;
+
+            // Обновляем количество оберток: новых и оставшихся
+            wrappers = chocolatesFromWrappers + (wrappers % wrappersNeeded);
+        }
+
+        return chocolatesBought;
+    }
+}
